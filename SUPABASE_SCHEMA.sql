@@ -1,4 +1,3 @@
--- BANCO DE DADOS: Centauro | Inspeção de Frota
 create extension if not exists pgcrypto;
 
 create table if not exists public.inspecoes (
@@ -11,7 +10,8 @@ create table if not exists public.inspecoes (
   placa text not null,
   km numeric not null default 0,
   mecanica text,
-  status text not null default 'concluida'
+  status text not null default 'concluida',
+  dados_json jsonb
 );
 
 create table if not exists public.inspecao_fotos (
@@ -25,18 +25,25 @@ create table if not exists public.inspecao_fotos (
 alter table public.inspecoes enable row level security;
 alter table public.inspecao_fotos enable row level security;
 
--- Para uma primeira implantação sem login:
-create policy "inspecoes_public_insert" on public.inspecoes
-for insert to anon with check (true);
+drop policy if exists "inspecoes_public_insert" on public.inspecoes;
+drop policy if exists "inspecoes_public_select" on public.inspecoes;
+drop policy if exists "fotos_public_insert" on public.inspecao_fotos;
+drop policy if exists "fotos_public_select" on public.inspecao_fotos;
 
-create policy "inspecoes_public_select" on public.inspecoes
-for select to anon using (true);
+create policy "inspecoes_public_insert" on public.inspecoes for insert to anon with check (true);
+create policy "inspecoes_public_select" on public.inspecoes for select to anon using (true);
+create policy "fotos_public_insert" on public.inspecao_fotos for insert to anon with check (true);
+create policy "fotos_public_select" on public.inspecao_fotos for select to anon using (true);
 
-create policy "fotos_public_insert" on public.inspecao_fotos
-for insert to anon with check (true);
+insert into storage.buckets (id, name, public)
+values ('inspecao-fotos', 'inspecao-fotos', true)
+on conflict (id) do update set public = true;
 
-create policy "fotos_public_select" on public.inspecao_fotos
-for select to anon using (true);
+drop policy if exists "inspecao_fotos_public_upload" on storage.objects;
+drop policy if exists "inspecao_fotos_public_read" on storage.objects;
 
--- No Storage, crie manualmente um bucket chamado: inspecao-fotos
--- e habilite upload para anon apenas se aceitar esse modelo de segurança.
+create policy "inspecao_fotos_public_upload" on storage.objects
+for insert to anon with check (bucket_id = 'inspecao-fotos');
+
+create policy "inspecao_fotos_public_read" on storage.objects
+for select to anon using (bucket_id = 'inspecao-fotos');

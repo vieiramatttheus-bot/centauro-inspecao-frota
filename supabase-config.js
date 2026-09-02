@@ -4,4 +4,4 @@
 // estão configuradas conforme o SQL fornecido.
 
 window.SUPABASE_URL = "https://keilxwwmcozavxzqtcy.supabase.co";
-window.SUPABASE_ANON_KEY = "COLE_AQUI_SUA_CHAVE_ANON_PUBLIC";
+window.SUPABASE_ANON_KEY = "sb_publishable_EUJjf6GU10APhupNu9nZkw_fQL2XZ5R";

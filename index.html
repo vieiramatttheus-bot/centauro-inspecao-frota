@@ -1,0 +1,146 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+<meta charset="UTF-8"><meta name="viewport" content="width=device-width,initial-scale=1.0">
+<title>Centauro | Inspeção de Frota</title>
+<meta name="theme-color" content="#C40000">
+<style>
+:root{--navy:#8B0000;--blue:#C40000;--cyan:#E31B23;--ink:#17212b;--muted:#687582;--bg:#f4f7fa;--card:#fff;--line:#dce4eb;--danger:#c0392b;--green:#17834b}
+*{box-sizing:border-box}html{scroll-behavior:smooth}body{margin:0;background:var(--bg);color:var(--ink);font-family:Inter,Segoe UI,Arial,sans-serif}
+.top{height:76px;background:linear-gradient(120deg,#7A0000,#C40000 68%,#E31B23);color:#fff;display:flex;align-items:center;position:sticky;top:0;z-index:30;box-shadow:0 5px 20px #8B000030}.topin{width:min(1180px,100%);margin:auto;padding:0 22px;display:flex;align-items:center;justify-content:space-between;gap:20px}.brand{display:flex;align-items:center;gap:12px}.mark{width:42px;height:42px;border-radius:11px;background:#fff;color:var(--navy);display:grid;place-items:center;font-weight:900;font-size:20px;box-shadow:0 6px 18px #001b3d45}.brand strong{font-size:17px;letter-spacing:1.5px}.brand span{display:block;font-size:10px;letter-spacing:1.7px;opacity:.75;margin-top:2px}.topright{font-size:12px;opacity:.9;text-align:right}.topright b{display:block;font-size:13px}
+.layout{width:min(1180px,100%);margin:auto;display:grid;grid-template-columns:230px 1fr;gap:24px;padding:24px 22px}.side{position:sticky;top:100px;height:max-content;background:#fff;border:1px solid var(--line);border-radius:16px;padding:15px;box-shadow:0 8px 26px #4c0c0c0b}.side-title{font-size:10px;text-transform:uppercase;letter-spacing:1.4px;color:#8a98a5;font-weight:800;padding:5px 9px 10px}.nav{display:block;text-decoration:none;color:#425466;font-size:13px;font-weight:650;padding:11px 10px;border-radius:9px;margin:2px 0}.nav:hover{background:#fff0f0;color:var(--navy)}.side-foot{margin-top:18px;padding:12px;border-top:1px solid var(--line);font-size:11px;color:var(--muted);line-height:1.5}.content{min-width:0}.hero{background:linear-gradient(120deg,#062f62,#0a5fae);border-radius:18px;padding:24px;color:#fff;position:relative;overflow:hidden;box-shadow:0 12px 35px #8B000025}.hero:after{content:"";position:absolute;width:260px;height:260px;border:1px solid #ffffff22;border-radius:50%;right:-90px;top:-100px;box-shadow:0 0 0 35px #ffffff08,0 0 0 70px #ffffff05}.eyebrow{font-size:10px;letter-spacing:2px;text-transform:uppercase;opacity:.72;font-weight:800}.hero h1{margin:7px 0 5px;font-size:28px;color:#fff}.hero p{margin:0;color:#ffe5e5;font-size:13px}.hero-row{display:flex;align-items:end;justify-content:space-between;gap:15px;position:relative;z-index:1}.progressbox{width:250px}.progress-label{display:flex;justify-content:space-between;font-size:10px;margin-bottom:7px;color:#ffe5e5}.progress{height:7px;background:#ffffff25;border-radius:20px;overflow:hidden}.bar{height:100%;width:0;background:linear-gradient(90deg,#E31B23,#fff);transition:.3s}.meta{display:grid;grid-template-columns:repeat(3,1fr);gap:10px;margin:14px 0}.metric{background:#fff;border:1px solid var(--line);border-radius:13px;padding:13px 14px;box-shadow:0 6px 20px #0c2d4c09}.metric small{font-size:10px;text-transform:uppercase;letter-spacing:1px;color:#8b99a5;font-weight:800}.metric strong{display:block;margin-top:5px;font-size:15px;color:var(--navy)}
+.card{background:#fff;border:1px solid var(--line);border-radius:16px;margin:14px 0;padding:20px;box-shadow:0 8px 28px #0c2d4c09}.cardhead{display:flex;align-items:center;gap:12px;margin-bottom:17px}.num{width:32px;height:32px;border-radius:9px;background:#fff0f0;color:var(--blue);display:grid;place-items:center;font-size:12px;font-weight:900}.card h2{font-size:17px;margin:0;color:var(--navy)}.sub{margin:-10px 0 16px 44px;font-size:12px;color:var(--muted)}.grid{display:grid;grid-template-columns:1fr 1fr;gap:13px}.field label{display:block;font-size:11px;text-transform:uppercase;letter-spacing:.6px;color:#536575;font-weight:800;margin:0 0 6px}.field input,.field select,.field textarea,input,select,textarea{width:100%;font:inherit;padding:11px 12px;border:1px solid #d9b8b8;border-radius:9px;background:#fff;color:var(--ink);outline:0}.field input:focus,.field select:focus,.field textarea:focus,input:focus,select:focus,textarea:focus{border-color:var(--cyan);box-shadow:0 0 0 3px #E31B2318}textarea{min-height:90px;resize:vertical}.item{padding:14px 0;border-top:1px solid #edf1f4}.item:first-child{border-top:0;padding-top:0}.item-title{font-weight:750;font-size:13px;margin-bottom:8px}.camera{display:flex;align-items:center;justify-content:center;gap:7px;width:100%;padding:11px;border:1px solid #efcaca;border-radius:9px;background:#fff1f1;color:#9B0000;font-weight:800;font-size:12px;cursor:pointer}.camera:hover{background:#ffe8e8}.native{position:absolute;left:-9999px;width:1px;height:1px;opacity:0}.preview{display:flex;gap:7px;flex-wrap:wrap;margin-top:8px}.preview img{width:76px;height:58px;object-fit:cover;border-radius:7px;border:1px solid #d6e0e7}.avaria{border:1px solid #e6d0ce;background:#fffafa;border-radius:11px;padding:13px;margin:10px 0}.avaria h3{font-size:12px;color:#9b3027;margin:0 0 11px}.actions{display:flex;gap:9px;flex-wrap:wrap}.btn{border:0;border-radius:9px;padding:11px 15px;font-weight:800;font-size:12px;cursor:pointer}.primary{background:linear-gradient(135deg,var(--navy),var(--blue));color:#fff}.secondary{background:#eef3f7;color:#4b2a2a}.danger{background:#fff0ef;color:var(--danger)}.savebar{position:sticky;bottom:12px;z-index:10;background:#fff;border:1px solid var(--line);border-radius:14px;padding:10px;box-shadow:0 10px 30px #8B000030;display:flex;align-items:center;gap:10px}.savebar .primary{flex:1}.notice{font-size:11px;color:var(--muted);padding:10px 2px 0}.hidden{display:none!important}.statusline{display:flex;gap:8px}.choice{position:relative}.choice input{position:absolute;opacity:0}.choice span{display:block;padding:9px 13px;border:1px solid #dfc1c1;border-radius:8px;font-size:12px;cursor:pointer}.choice input:checked+span{border-color:var(--blue);background:#fff0f0;color:var(--blue);font-weight:800}.footer{margin:20px 0 0;padding:18px;text-align:center;font-size:11px;color:#83919d}.footer b{color:var(--navy);letter-spacing:1px}
+@media(max-width:850px){.layout{grid-template-columns:1fr;padding:16px 12px}.side{display:none}.hero h1{font-size:23px}.topright{display:none}.meta{grid-template-columns:1fr 1fr}.metric:last-child{grid-column:1/-1}}
+@media(max-width:560px){.top{height:68px}.topin{padding:0 14px}.brand strong{font-size:14px}.mark{width:38px;height:38px}.layout{padding:12px 9px}.hero{padding:19px}.hero-row{display:block}.progressbox{width:100%;margin-top:17px}.grid{grid-template-columns:1fr}.meta{grid-template-columns:1fr}.metric:last-child{grid-column:auto}.card{padding:16px}.sub{margin-left:0}.savebar{bottom:7px}}
+</style>
+</head>
+<body>
+<header class="top"><div class="topin"><div class="brand"><div class="mark">C</div><div><strong>CENTAURO</strong><span>ENGENHARIA & TECNOLOGIA</span></div></div><div class="topright"><b>PORTAL OPERACIONAL</b>Inspeção de Frota</div></div></header>
+<div class="layout">
+<aside class="side"><div class="side-title">Navegação</div><a class="nav" href="#identificacao">01 · Identificação</a><a class="nav" href="#externa">02 · Parte externa</a><a class="nav" href="#interna">03 · Parte interna</a><a class="nav" href="#mecanica">04 · Mecânica e segurança</a><a class="nav" href="#avarias">05 · Avarias</a><div class="side-foot"><b>CENTAURO ENGENHARIA</b><br>Precisão técnica, segurança e excelência operacional.</div></aside>
+<main class="content">
+<section class="hero"><div class="hero-row"><div><div class="eyebrow">Portal operacional · Frota</div><h1>Inspeção de veículo</h1><p>Registro digital de condições, evidências fotográficas e avarias.</p></div><div class="progressbox"><div class="progress-label"><span>Preenchimento</span><b id="pct">0%</b></div><div class="progress"><div class="bar" id="bar"></div></div></div></div></section>
+<div class="meta"><div class="metric"><small>Status</small><strong id="status">Em preenchimento</strong></div><div class="metric"><small>Data e hora</small><strong id="dataCard">--/--/----</strong></div><div class="metric"><small>Evidências</small><strong id="fotosCount">0 fotos</strong></div></div>
+<section class="card" id="identificacao"><div class="cardhead"><div class="num">01</div><h2>Identificação da inspeção</h2></div><p class="sub">Informe os dados básicos do veículo e do responsável pela inspeção.</p><div class="grid">
+<div class="field"><label>Data e hora</label><input id="dataHora" readonly></div><div class="field"><label>Motorista / condutor *</label><input id="motorista" required placeholder="Nome completo"></div>
+<div class="field"><label>Contrato *</label><select id="contrato"><option value="">Selecione</option><option>Áudio e Vídeo</option><option>Dados e Voz</option><option>CFTV</option></select></div><div class="field"><label>Veículo *</label><input id="veiculo" placeholder="Ex.: Fiat Strada"></div>
+<div class="field"><label>Placa *</label><input id="placa" placeholder="ABC-1234" maxlength="8"></div><div class="field"><label>KM atual *</label><input id="km" type="number" min="0" placeholder="0"></div>
+</div></section>
+<section class="card" id="externa"><div class="cardhead"><div class="num">02</div><h2>Inspeção externa</h2></div><p class="sub">Registre uma evidência fotográfica de cada item.</p><div id="externaList"></div><div class="item"><div class="item-title">Vazamento aparente</div><textarea id="vazObs" placeholder="Descreva se houver vazamento, local e condição observada..."></textarea></div></section>
+<section class="card" id="interna"><div class="cardhead"><div class="num">03</div><h2>Inspeção interna</h2></div><p class="sub">Registre o estado e os componentes internos do veículo.</p><div id="internaList"></div></section>
+<section class="card" id="mecanica"><div class="cardhead"><div class="num">04</div><h2>Mecânica e segurança</h2></div><p class="sub">Documente itens de manutenção e alertas do painel.</p><div class="grid"><div class="field"><label>Óleo — tag da última troca</label><label class="camera">📷 Tirar foto<input type="file" accept="image/*" capture="environment" class="foto native" data-preview="oleoPrev"></label><div id="oleoPrev" class="preview"></div></div><div class="field"><label>Líquido de arrefecimento — nível</label><label class="camera">📷 Tirar foto<input type="file" accept="image/*" capture="environment" class="foto native" data-preview="arrefPrev"></label><div id="arrefPrev" class="preview"></div></div></div>
+<div class="item"><div class="item-title">Luz de advertência no painel</div><div class="statusline"><label class="choice"><input type="radio" name="luz" value="Não"><span>Não</span></label><label class="choice"><input type="radio" name="luz" value="Sim"><span>Sim</span></label></div><input id="qualLuz" class="hidden" style="margin-top:9px" placeholder="Qual luz de advertência foi identificada?"><div style="margin-top:10px"><label class="camera">📷 Tirar foto do painel<input type="file" accept="image/*" capture="environment" class="foto native" data-preview="painelPrev"></label><div id="painelPrev" class="preview"></div></div></div>
+<div class="field"><label>Observações técnicas</label><textarea id="mecanica" placeholder="Barulhos, alinhamento, direção, freios, funcionamento etc."></textarea></div></section>
+<section class="card" id="avarias"><div class="cardhead"><div class="num">05</div><h2>Registro de avarias</h2></div><p class="sub">Cadastre quantas ocorrências forem necessárias, com evidência fotográfica.</p><div id="avariasList"></div><button type="button" class="btn secondary" onclick="addAvaria()">＋ Adicionar avaria</button></section>
+<div class="savebar"><button class="btn primary" onclick="salvarInspecao()">💾 SALVAR INSPEÇÃO</button><button class="btn secondary" onclick="gerarRelatorio()">🧾 RESUMO</button><button class="btn danger" onclick="limpar()">LIMPAR</button></div>
+<div id="saida" class="notice"></div>
+<section class="card" id="historico" style="margin-top:18px">
+  <div class="cardhead"><div class="num">06</div><h2>Histórico de inspeções</h2></div>
+  <p class="sub">Consulta das últimas inspeções registradas no banco central.</p>
+  <button type="button" class="btn secondary" onclick="carregarHistorico()">🔄 Atualizar histórico</button>
+  <div id="historicoList" style="margin-top:12px"></div>
+</section>
+<div class="footer"><b>CENTAURO ENGENHARIA</b> · Sistema de inspeção de frota · Uso operacional</div>
+</main></div>
+
+<script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
+<script src="supabase-config.js"></script>
+<script>
+(function(){
+  if(window.SUPABASE_URL && window.SUPABASE_ANON_KEY && !window.SUPABASE_URL.includes('COLOQUE_')){
+    window.supabaseClient = window.supabase.createClient(window.SUPABASE_URL, window.SUPABASE_ANON_KEY);
+  }
+})();
+async function carregarHistorico(){
+  const box=document.getElementById('historicoList');
+  if(!window.supabaseClient){box.innerHTML='<div class="notice">Configure o Supabase para habilitar o histórico central.</div>';return}
+  box.innerHTML='Carregando...';
+  const {data,error}=await window.supabaseClient.from('inspecoes')
+    .select('id,data_hora,motorista,veiculo,placa,km,status')
+    .order('data_hora',{ascending:false}).limit(30);
+  if(error){box.innerHTML='<div class="notice">Erro ao carregar histórico.</div>';return}
+  if(!data.length){box.innerHTML='<div class="notice">Nenhuma inspeção registrada ainda.</div>';return}
+  box.innerHTML=data.map(x=>`<div style="padding:10px;border-bottom:1px solid #dce4eb">
+    <b>${x.placa||''}</b> · ${x.veiculo||''} · ${x.motorista||''}<br>
+    <small>${new Date(x.data_hora).toLocaleString('pt-BR')} · KM ${x.km||0} · ${x.status||''}</small>
+  </div>`).join('');
+}
+</script>
+<script>
+const externa=["Pneus dianteiros","Pneus traseiros","Para-brisa frontal","Para-brisa traseiro","Retrovisor esquerdo","Retrovisor direito","Faróis","Lanternas","Luz de freio","Setas","Luz de ré","Limpadores","Lataria – frente","Lataria – traseira","Lataria – lateral esquerda","Lataria – lateral direita"];
+const interna=["Interior – frente","Interior – traseira","Bancos – dianteiros","Bancos – traseiros","Extintor (se aplicável)","Macaco","Chave de roda","Triângulo","Estepe"];
+function safeId(s){return s.normalize("NFD").replace(/[\u0300-\u036f]/g,"").replace(/[^a-zA-Z0-9]/g,"")}
+function itemHTML(nome,prefix){let id=prefix+safeId(nome);return `<div class="item"><div class="item-title">${nome}</div><label class="camera">📷 Tirar foto<input type="file" accept="image/*" capture="environment" class="foto native" data-preview="${id}Prev"></label><div id="${id}Prev" class="preview"></div></div>`}
+document.getElementById('externaList').innerHTML=externa.map(x=>itemHTML(x,'ext')).join('');document.getElementById('internaList').innerHTML=interna.map(x=>itemHTML(x,'int')).join('');
+const now=new Date();document.getElementById('dataHora').value=now.toLocaleString('pt-BR');document.getElementById('dataCard').textContent=now.toLocaleDateString('pt-BR');
+let n=0,fotos=0;
+function addAvaria(){n++;const d=document.createElement('div');d.className='avaria';d.innerHTML=`<h3>AVARIA Nº ${n}</h3><div class="field"><label>Descrição da avaria</label><textarea class="av-desc" placeholder="Descreva a ocorrência..."></textarea></div><div class="field" style="margin-top:9px"><label>Local da avaria</label><input class="av-local" placeholder="Ex.: lateral esquerda dianteira"></div><div style="margin-top:9px"><label class="camera">📷 Tirar foto da avaria<input type="file" accept="image/*" capture="environment" class="foto native" data-preview="avp${n}"></label><div id="avp${n}" class="preview"></div></div><div class="field" style="margin-top:9px"><label>Observações</label><textarea class="av-obs"></textarea></div><button type="button" class="btn danger" style="margin-top:8px" onclick="this.parentElement.remove();updateProgress()">Remover registro</button>`;document.getElementById('avariasList').appendChild(d);updateProgress()}
+document.addEventListener('change',e=>{if(e.target.matches('input[type=file]')){const p=document.getElementById(e.target.dataset.preview);if(!p)return;p.innerHTML='';[...e.target.files].forEach(f=>{fotos++;const img=document.createElement('img');img.src=URL.createObjectURL(f);p.appendChild(img)});document.getElementById('fotosCount').textContent=fotos+' foto'+(fotos===1?'':'s');updateProgress()}if(e.target.name==='luz')document.getElementById('qualLuz').classList.toggle('hidden',e.target.value!=='Sim');updateProgress()});
+document.addEventListener('input',updateProgress);document.addEventListener('change',updateProgress);
+function val(id){return document.getElementById(id).value}function updateProgress(){let fields=[val('motorista'),val('contrato'),val('veiculo'),val('placa'),val('km')];let done=fields.filter(Boolean).length;let p=Math.round(done/5*70+Math.min(fotos/8,1)*30);p=Math.min(100,p);document.getElementById('pct').textContent=p+'%';document.getElementById('bar').style.width=p+'%';document.getElementById('status').textContent=p>=100?'Pronto para salvar':p>=70?'Quase concluído':'Em preenchimento'}
+async function salvarInspecao(){
+  const req=[['motorista','Motorista'],['contrato','Contrato'],['veiculo','Veículo'],['placa','Placa'],['km','KM']];
+  for(const [id,nome] of req){
+    if(!val(id)){alert('Preencha: '+nome);document.getElementById(id).focus();return}
+  }
+
+  const dados={
+    data_hora: new Date().toISOString(),
+    motorista: val('motorista'),
+    contrato: val('contrato'),
+    veiculo: val('veiculo'),
+    placa: val('placa').toUpperCase(),
+    km: Number(val('km')) || 0,
+    mecanica: val('mecanica'),
+    status: 'concluida'
+  };
+
+  // Mantém uma cópia local para permitir recuperação caso a internet oscile.
+  localStorage.setItem('ultimaInspecao', JSON.stringify(dados));
+
+  if(!window.supabaseClient){
+    document.getElementById('saida').innerHTML='<b>⚠️ Sistema ainda não conectado ao banco.</b> A interface está pronta; configure o Supabase conforme o arquivo CONFIGURACAO_SUPABASE.md.';
+    document.getElementById('status').textContent='Aguardando banco';
+    return;
+  }
+
+  try{
+    const {data: inspecao,error} = await window.supabaseClient
+      .from('inspecoes')
+      .insert(dados)
+      .select()
+      .single();
+
+    if(error) throw error;
+
+    // Envia fotos associadas ao checklist para o Storage e registra os metadados.
+    const arquivos=[...document.querySelectorAll('input[type=file]')].flatMap(input =>
+      [...(input.files||[])].map(file=>({input,file}))
+    );
+
+    for(const {input,file} of arquivos){
+      const caminho=`${inspecao.id}/${Date.now()}_${file.name.replace(/[^a-zA-Z0-9._-]/g,'_')}`;
+      const up=await window.supabaseClient.storage.from('inspecao-fotos').upload(caminho,file,{upsert:false});
+      if(up.error) throw up.error;
+
+      const reg={
+        inspecao_id: inspecao.id,
+        categoria: input.closest('.item')?.querySelector('.item-title')?.textContent || 'Avaria',
+        arquivo: caminho
+      };
+      const mr=await window.supabaseClient.from('inspecao_fotos').insert(reg);
+      if(mr.error) throw mr.error;
+    }
+
+    document.getElementById('saida').innerHTML='<b>✓ Inspeção enviada com sucesso.</b> Dados e fotos registrados no banco de dados.';
+    document.getElementById('status').textContent='Sincronizado';
+  }catch(err){
+    console.error(err);
+    document.getElementById('saida').innerHTML='<b>⚠️ Não foi possível sincronizar.</b> A inspeção ficou salva localmente. Verifique a conexão e tente novamente.';
+    document.getElementById('status').textContent='Não sincronizado';
+  }
+}
+
+function gerarRelatorio(){{const t=`CENTAURO ENGENHARIA — INSPEÇÃO DE FROTA\n\nData/hora: ${val('dataHora')}\nMotorista: ${val('motorista')}\nContrato: ${val('contrato')}\nVeículo: ${val('veiculo')}\nPlaca: ${val('placa')}\nKM: ${val('km')}\n\nObservações mecânicas:\n${val('mecanica')}`;const blob=new Blob([t],{type:'text/plain;charset=utf-8'});const a=document.createElement('a');a.href=URL.createObjectURL(blob);a.download='centauro_inspecao_'+(val('placa')||'veiculo')+'.txt';a.click()}
+function limpar(){if(confirm('Apagar o preenchimento atual?'))location.reload()}updateProgress();
+</script></body></html>

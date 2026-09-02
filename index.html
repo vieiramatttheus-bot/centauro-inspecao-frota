@@ -27,7 +27,7 @@
 <div class="field"><label>Placa *</label><input id="placa" placeholder="ABC-1234" maxlength="8"></div><div class="field"><label>KM atual *</label><input id="km" type="number" min="0" placeholder="0"></div>
 </div></section>
 <section class="card" id="externa"><div class="cardhead"><div class="num">02</div><h2>Inspeção externa</h2></div><p class="sub">Registre uma evidência fotográfica de cada item.</p><div id="externaList"></div><div class="item"><div class="item-title">Vazamento aparente</div><textarea id="vazObs" placeholder="Descreva se houver vazamento, local e condição observada..."></textarea></div></section>
-<section class="card" id="interna"><div class="cardhead"><div class="num">03</div><h2>Inspeção interna</h2></div><p class="sub">Registre o estado e os componentes internos do veículo.</p><div id="internaList"></div></section>
+<section class="card" id="interna"><div class="cardhead"><div class="num">03</div><h2>Inspeção interna</h2></div><p class="sub">Registre o estado e os componentes internos do veículo.</p><div id="internaList"></div><div id="internaFallback" class="notice hidden">Nenhum item carregado. Recarregue a página.</div></section>
 <section class="card" id="mecanica"><div class="cardhead"><div class="num">04</div><h2>Mecânica e segurança</h2></div><p class="sub">Documente itens de manutenção e alertas do painel.</p><div class="grid"><div class="field"><label>Óleo — tag da última troca</label><label class="camera">📷 Tirar foto<input type="file" accept="image/*" capture="environment" class="foto native" data-preview="oleoPrev"></label><div id="oleoPrev" class="preview"></div></div><div class="field"><label>Líquido de arrefecimento — nível</label><label class="camera">📷 Tirar foto<input type="file" accept="image/*" capture="environment" class="foto native" data-preview="arrefPrev"></label><div id="arrefPrev" class="preview"></div></div></div>
 <div class="item"><div class="item-title">Luz de advertência no painel</div><div class="statusline"><label class="choice"><input type="radio" name="luz" value="Não"><span>Não</span></label><label class="choice"><input type="radio" name="luz" value="Sim"><span>Sim</span></label></div><input id="qualLuz" class="hidden" style="margin-top:9px" placeholder="Qual luz de advertência foi identificada?"><div style="margin-top:10px"><label class="camera">📷 Tirar foto do painel<input type="file" accept="image/*" capture="environment" class="foto native" data-preview="painelPrev"></label><div id="painelPrev" class="preview"></div></div></div>
 <div class="field"><label>Observações técnicas</label><textarea id="mecanicaObs" placeholder="Barulhos, alinhamento, direção, freios, funcionamento etc."></textarea></div></section>
@@ -40,7 +40,16 @@ const externa=["Pneus dianteiros","Pneus traseiros","Para-brisa frontal","Para-b
 const interna=["Interior – frente","Interior – traseira","Bancos – dianteiros","Bancos – traseiros","Extintor (se aplicável)","Macaco","Chave de roda","Triângulo","Estepe"];
 function safeId(s){return s.normalize("NFD").replace(/[\u0300-\u036f]/g,"").replace(/[^a-zA-Z0-9]/g,"")}
 function itemHTML(nome,prefix){let id=prefix+safeId(nome);return `<div class="item"><div class="item-title">${nome}</div><label class="camera">📷 Tirar foto<input type="file" accept="image/*" capture="environment" class="foto native" data-preview="${id}Prev"></label><div id="${id}Prev" class="preview"></div></div>`}
-document.getElementById('externaList').innerHTML=externa.map(x=>itemHTML(x,'ext')).join('');document.getElementById('internaList').innerHTML=interna.map(x=>itemHTML(x,'int')).join('');
+function renderInspectionLists(){
+  const ext=document.getElementById('externaList');
+  const int=document.getElementById('internaList');
+  ext.innerHTML=externa.map((x,i)=>itemHTML(x,'ext'+i)).join('');
+  int.innerHTML=interna.map((x,i)=>itemHTML(x,'int'+i)).join('');
+}
+renderInspectionLists();
+if(!document.getElementById('externaList').children.length || !document.getElementById('internaList').children.length){
+  document.getElementById('internaFallback').classList.remove('hidden');
+}
 const now=new Date();document.getElementById('dataHora').value=now.toLocaleString('pt-BR');document.getElementById('dataCard').textContent=now.toLocaleDateString('pt-BR');
 let n=0,fotos=0;
 function addAvaria(){n++;const d=document.createElement('div');d.className='avaria';d.innerHTML=`<h3>AVARIA Nº ${n}</h3><div class="field"><label>Descrição da avaria</label><textarea class="av-desc" placeholder="Descreva a ocorrência..."></textarea></div><div class="field" style="margin-top:9px"><label>Local da avaria</label><input class="av-local" placeholder="Ex.: lateral esquerda dianteira"></div><div style="margin-top:9px"><label class="camera">📷 Tirar foto da avaria<input type="file" accept="image/*" capture="environment" class="foto native" data-preview="avp${n}"></label><div id="avp${n}" class="preview"></div></div><div class="field" style="margin-top:9px"><label>Observações</label><textarea class="av-obs"></textarea></div><button type="button" class="btn danger" style="margin-top:8px" onclick="this.parentElement.remove();updateProgress()">Remover registro</button>`;document.getElementById('avariasList').appendChild(d);updateProgress()}

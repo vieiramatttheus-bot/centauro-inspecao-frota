@@ -40,6 +40,8 @@
 <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
 <script src="supabase-config.js"></script>
 <script>
+  window.CENTAURO_DRIVE_WEBAPP_URL = "https://script.google.com/macros/s/AKfycbxIY3wqv7ayFkCo3F5_O4mhVVRp0Mh5xC-ZwAg8h7M7FszQhDi02sO5Nk7Q_T9fnTDd/exec";
+</script>
 let supabaseClient=null;
 if(window.supabase && window.SUPABASE_URL && window.SUPABASE_ANON_KEY && !window.SUPABASE_URL.includes("COLOQUE_A_URL")){
   supabaseClient=window.supabase.createClient(window.SUPABASE_URL,window.SUPABASE_ANON_KEY);

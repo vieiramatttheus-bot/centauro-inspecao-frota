@@ -3,5 +3,5 @@
 // A chave anon/public é apropriada para uso no navegador quando as políticas RLS
 // estão configuradas conforme o SQL fornecido.
 
-window.SUPABASE_URL = "https://keilxwwmcozavxzqtcy.supabase.co";
+window.SUPABASE_URL = "https://lkeilxwwmcozavxzqtcy.supabase.co";
 window.SUPABASE_ANON_KEY = "sb_publishable_EUJjf6GU10APhupNu9nZkw_fQL2XZ5R";
